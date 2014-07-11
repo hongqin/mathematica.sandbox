@@ -1,0 +1,249 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      8259,        240]
+NotebookOptionsPosition[      7378,        204]
+NotebookOutlinePosition[      7736,        220]
+CellTagsIndexPosition[      7693,        217]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+Inverse function of Gompertz and Weibull models
+\
+\>", "Text",
+ CellChangeTimes->{{3.596671638028451*^9, 3.596671651704178*^9}}],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.596671714108891*^9, 3.596671725501636*^9}, {
+  3.596672095348672*^9, 3.5966720993949623`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"GompertzMakehamDistribution", "[", 
+  RowBox[{"0.1", ",", "0.2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5966721073963423`*^9, 3.5966721359032993`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"GompertzMakehamDistribution", "[", 
+  RowBox[{"0.1`", ",", "0.2`"}], "]"}]], "Output",
+ CellChangeTimes->{3.596672139630225*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ProbabilityPlot", "[", 
+  RowBox[{"GompertzMakehamDistribution", "[", 
+   RowBox[{"0.01", ",", "0.3"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5966721786541357`*^9, 3.596672198899146*^9}},
+ NumberMarks->False],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {RGBColor[0.24720000000000014`, 0.24, 0.6], LineBox[CompressedData["
+1:eJxd1Hsw1GsYB/BfMVRymXQRIZuOxVq5JF14WC1JInIv17S5jFUJK9qNCima
+MrpLjltytEWpcVdI2cS6JLVshXapKMqRo/OaOfPunN6Zd575zPeZZ54/3nm1
+ApkuwfMJgmChO1d/Py6mH/XTB4Pg/z78m5OwPw9LP2uqzMRuYPhJtfGysUNz
+2zJy3fOw68X/jLLu3sLWXNx+potbil1g01tdIH8PO81Timr5oBx7opddu8Ko
+AntrSlIsW/gIe8WfvS66+6qwNy0T5VNf12CTXoOSsKEOW+RnKng+rwFbO360
+NsHnMbbs1nm+b0ufYOvTahf7jjRiP+62asunNWNfvxmWq5D0FFs83zvVUtCC
+3a+YT1ll8hx7uevlAdWDrdh1lF1FAy087JIt9zjNcm3Yq2cqFpWueSnZN39K
+0PdCYnvR2c1XItqxC6ekSVVqHdi9e4uHyhslpvjmmVju42M/0uUs0lfqxGac
+44YUcSUW7VAsnHHsws7rdIoon5KY8+ND9czFbuysQZ+LRVt7sHkROn9/GJT4
+laPWxqmkV9jqUzPzmYa92IkWBm7RbRJr7QQjYfxr7Mxy9ghJpw+b/GApdbJR
+4u+JadN6h95gD4rdncaXvMUuKnJOTOdKnGdEgQwfgeS9uu05sfqnxCr0CNdl
+Rf3Yge41likdEv/FUND7OSNx/JY7iyqUB4DgkPesmf5qqUX34IyRketWC3aX
+S4GecKFs1ZY5q32t3ywPpglVZ5Od5+wtag5QBtv7Wlc1YpEHxsW7xatggdzb
+uFkeco7DhlMvyOBT2pD9h4YQWX3jZwsjcNhwOZk4guzpOunGNoO1I6f66c+Q
+t/WoJ5VshozR7KP8le+AsIoPqKJZQRa/8M2SSOQSplTEEA0MFvQdv1KHPEoW
+X/SnQyljbdZZxffIp2p57XbQWuLPNA5GrnOcZMZvh6PQdEbzPvKOZo3Vszug
+qWIVs0buAxATlVRqpRP89D5d99Qf2VKb1m++C+odSO5q3LlcUD7MdgFt0m2u
+pswgEJcUq6yGXGGFra9TuDvy7Mn9l8zdYCKTvFc7H/lcmj41xR0iWt4bpk8j
+k/VilP72gFiHFlur7UNAFMd3qrt7gWbZDVJeDnJ3vxm92xs8DuTQnMeRS5VI
+ItoeYG172M6wGgZiavxXZOleMFeoX2uUhWz64b2KlR8ka01U04aQg1p1rf38
+4bCqipqMxUcgKC2cL8YBYG/pOmx6Hpn7SKdaNhDu3Hn447YQWd9sdA0/EO7J
+KPI6N4iAeLwyKvV+ENjezhiipyBLNQ1Mpe+DJ3E6TFIPMlPGOjQ0GASG3Cou
+RYzm+x7e5r8fUo2DdibHI4ucbASODGhXlc1X5CPnOz/08joAUtSGUCnyCBDq
+mhSvsBBoTC+MghjkL+lPWNGhoN2VYGPAQ6akNd4sCAPlkGPuQeqjQDCowyYd
+4TCqk/VKOhx56ci5bwsiILA1W9OzHjmDKn8/kgkhNe3F35Q+AYdp59cZHgny
+WZPTVoxPQHg8Kgu0PgjWlTYZ3RXILpPaXLVD4Cd363yPzGfg8K+3ZC48DKrW
+v7xP70HuEGxyNoyCTwGaGqmRn4FQppcVxEVBXSIIk0+g3Oi93dKWKAh+wmac
+LEEuuxJ8MvII3NB4c3VdA+pfH6Wg2HEEemPNX/b1IK8zMjHeGA3K/Ezp5E+o
+X04YVFUQDY4G4+bGUl+AQ5KRL1GLAZqLsn2syhcgnIPpwqwYMItZ71VjgGy4
+MmJMLRb0rnmESNug/iWlvK6SWNCsZ7G2e6Lc9cZBix0siGUVXCGFIxtUZNDH
+WfDSiF85zUa26b7AKo4DXfGvNx0XkBt+HLQ/dhQScymzxYVo3oFe07HoeHjH
+umlZV43yuz5BBrwEsN61nN3FR3nC8T67a2zIIafVikUoD/tOP2Zz/L9/YgzX
+fwGOX7Rl
+     "]]}, 
+   {Hue[0.9060679774997897, 0.6, 0.6], Opacity[0], 
+    LineBox[{{2.040816326530612*^-8, 2.040816326530612*^-8}, {
+     0.9999999795918367, 0.9999999795918367}}]}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  AxesOrigin->{0, 0},
+  Epilog->{{}, 
+    StyleBox[
+     LineBox[{{2.040816326530612*^-8, 2.040816326530612*^-8}, {
+      0.9999999795918367, 0.9999999795918367}}], 
+     Directive[
+      RGBColor[0.24720000000000014`, 0.24, 0.6], 
+      Dashing[{0, Small}]], StripOnInput -> False]},
+  Frame->True,
+  FrameLabel->{None, None},
+  Method->{},
+  PlotRange->{{0, 1}, {0, 1}},
+  PlotRangeClipping->True,
+  PlotRangePadding->Scaled[0.02]]], "Output",
+ CellChangeTimes->{{3.5966721603255367`*^9, 3.596672204064987*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"InverseFunction", "[", 
+  RowBox[{"GompertzMakehamDistribution", "[", 
+   RowBox[{"0.1", ",", "0.2"}], "]"}], " ", "]"}]], "Input",
+ CellChangeTimes->{{3.5966722180127287`*^9, 3.596672282310821*^9}}],
+
+Cell[BoxData[
+ RowBox[{"InverseFunction", "[", 
+  RowBox[{"GompertzMakehamDistribution", "[", 
+   RowBox[{"0.1`", ",", "0.2`"}], "]"}], "]"}]], "Output",
+ CellChangeTimes->{{3.596672260216988*^9, 3.596672288095763*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"foo", "[", "x_", "]"}], " ", ":=", " ", 
+   RowBox[{"x", "^", "3"}]}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"InverseFunction", "[", "foo", "]"}], "[", "x", "]"}]}], "Input",
+ CellChangeTimes->{{3.5966722708699617`*^9, 3.596672294803665*^9}, {
+   3.596672374120476*^9, 3.596672394632352*^9}, 3.596672441681562*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"InverseFunction", "::", "ifun"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Inverse functions are being used. Values may be lost for \
+multivalued inverses. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/InverseFunction/ifun\\\", ButtonNote -> \\\
+\"InverseFunction::ifun\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.596672399942593*^9, 3.5966724457179413`*^9}],
+
+Cell[BoxData[
+ SuperscriptBox["x", 
+  RowBox[{"1", "/", "3"}]]], "Output",
+ CellChangeTimes->{3.5966722995140457`*^9, 3.596672399974963*^9, 
+  3.596672445719784*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"F", "[", "x_", "]"}], " ", ":=", " ", 
+  RowBox[{"1", " ", "-", " ", 
+   RowBox[{"Exp", "[", 
+    RowBox[{
+     RowBox[{"R", "/", "G"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"1", " ", "-", " ", 
+       RowBox[{"Exp", "[", 
+        RowBox[{"G", " ", "x"}], "]"}]}], " ", ")"}]}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"InverseFunction", "[", "F", "]"}], "[", "x", "]"}]}], "Input",
+ CellChangeTimes->{{3.596672481408588*^9, 3.596672536751717*^9}, {
+  3.5966729074517527`*^9, 3.596672930759152*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ConditionalExpression", "[", 
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     RowBox[{"2", " ", "\[ImaginaryI]", " ", "\[Pi]", " ", 
+      RowBox[{"C", "[", "1", "]"}]}], "+", 
+     RowBox[{"Log", "[", 
+      FractionBox[
+       RowBox[{"R", "+", 
+        RowBox[{"G", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"2", " ", "\[ImaginaryI]", " ", "\[Pi]", " ", 
+            RowBox[{"C", "[", "2", "]"}]}], "+", 
+           RowBox[{"Log", "[", 
+            FractionBox["1", 
+             RowBox[{"1", "-", "x"}]], "]"}]}], ")"}]}]}], "R"], "]"}]}], 
+    "G"], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"C", "[", "2", "]"}], "\[Element]", "Integers"}], "&&", 
+    RowBox[{
+     RowBox[{"C", "[", "1", "]"}], "\[Element]", "Integers"}]}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.596672511681891*^9, 3.596672541854851*^9, 
+  3.596672934699656*^9}]
+}, Open  ]]
+},
+WindowSize->{740, 867},
+WindowMargins->{{235, Automatic}, {-29, Automatic}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 138, 4, 49, "Text"],
+Cell[698, 26, 143, 2, 28, "Input"],
+Cell[CellGroupData[{
+Cell[866, 32, 177, 3, 28, "Input"],
+Cell[1046, 37, 152, 3, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1235, 45, 240, 5, 28, "Input"],
+Cell[1478, 52, 2823, 55, 242, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4338, 112, 223, 4, 28, "Input"],
+Cell[4564, 118, 219, 4, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4820, 127, 375, 8, 46, "Input"],
+Cell[5198, 137, 508, 10, 24, "Message"],
+Cell[5709, 149, 165, 4, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5911, 158, 557, 15, 46, "Input"],
+Cell[6471, 175, 891, 26, 129, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

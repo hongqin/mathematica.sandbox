@@ -1,0 +1,1798 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     77184,       1789]
+NotebookOptionsPosition[     73400,       1673]
+NotebookOutlinePosition[     75004,       1723]
+CellTagsIndexPosition[     74676,       1711]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Expectation Maximization for Gaussian Mixture Distributions", \
+"DemoTitle",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4254029375741787`*^9, 3.425402950163024*^9}}],
+
+Cell["", "InitializationSection"],
+
+Cell[CellGroupData[{
+
+Cell["", "ManipulateSection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"d1", ",", "d2", ",", "sim", ",", "updates"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"SeedRandom", "[", "sr", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"d1", "=", 
+       RowBox[{"NormalDistribution", "[", 
+        RowBox[{"\[Mu]1", ",", "\[Sigma]1"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"d2", "=", 
+       RowBox[{"NormalDistribution", "[", 
+        RowBox[{"\[Mu]2", ",", "\[Sigma]2"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"sim", "=", 
+       RowBox[{"With", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"musAndsigmas", "=", 
+           RowBox[{"RandomChoice", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"p1", ",", 
+                RowBox[{"1", "-", "p1"}]}], "}"}], "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"\[Mu]1", ",", "\[Sigma]1"}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"\[Mu]2", ",", "\[Sigma]2"}], "}"}]}], "}"}]}], ",", 
+             "numsamples"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"musAndsigmas", "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", "2"}], "]"}], "]"}], 
+           RowBox[{"RandomReal", "[", 
+            RowBox[{
+             RowBox[{"NormalDistribution", "[", "]"}], ",", "numsamples"}], 
+            "]"}]}], "+", 
+          RowBox[{"musAndsigmas", "[", 
+           RowBox[{"[", 
+            RowBox[{"All", ",", "1"}], "]"}], "]"}]}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"updates", "=", 
+       RowBox[{"NestList", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"em", "[", 
+           RowBox[{"#", ",", "sim"}], "]"}], "&"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "10"}], ",", "5"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"5", ",", "5"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{".2", ",", ".8"}], "}"}]}], "}"}], ",", "numiterations"}],
+         "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Grid", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"Show", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"Histogram", "[", 
+               RowBox[{"sim", ",", "Automatic", ",", "\"\<PDF\>\"", ",", 
+                RowBox[{"PlotRange", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "30"}], ",", "30"}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"0", ",", "Automatic"}], "}"}]}], "}"}]}]}], 
+               "]"}], ",", 
+              RowBox[{"Plot", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"updates", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "3", ",", "1"}], "]"}], "]"}], 
+                   "*", 
+                   RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"Apply", "[", 
+                    RowBox[{"NormalDistribution", ",", 
+                    RowBox[{"updates", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "1"}], "]"}], "]"}]}], "]"}], 
+                    ",", "x"}], "]"}]}], ",", 
+                  RowBox[{
+                   RowBox[{"updates", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "3", ",", "2"}], "]"}], "]"}], 
+                   "*", 
+                   RowBox[{"PDF", "[", 
+                    RowBox[{
+                    RowBox[{"Apply", "[", 
+                    RowBox[{"NormalDistribution", ",", 
+                    RowBox[{"updates", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "2"}], "]"}], "]"}]}], "]"}], 
+                    ",", "x"}], "]"}]}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"x", ",", 
+                  RowBox[{"-", "30"}], ",", "30"}], "}"}], ",", 
+                RowBox[{"PlotStyle", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"Red", ",", "Thick"}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"Blue", ",", "Thick"}], "}"}]}], "}"}]}], ",", 
+                RowBox[{"PerformanceGoal", "\[Rule]", "\"\<Speed\>\""}], ",", 
+                
+                RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], "}"}], 
+            ",", 
+            RowBox[{"ImageSize", "\[Rule]", 
+             RowBox[{"{", 
+              RowBox[{"400", ",", "275"}], "}"}]}], ",", 
+            RowBox[{"AxesOrigin", "\[Rule]", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "30"}], ",", "0"}], "}"}]}]}], "]"}], "}"}], ",", 
+         
+         RowBox[{"{", 
+          RowBox[{"Grid", "[", 
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"Panel", "[", 
+              RowBox[{"TableForm", "[", 
+               RowBox[{
+                RowBox[{"updates", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"-", "1"}], ",", 
+                   RowBox[{"1", ";;", "2"}]}], "]"}], "]"}], ",", 
+                RowBox[{"TableHeadings", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"updates", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "3"}], "]"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"\"\<\[Mu]\>\"", ",", "\"\<\[Sigma]\>\""}], 
+                    "}"}]}], "}"}]}]}], "]"}], "]"}], "}"}], "}"}], "]"}], 
+          "}"}]}], "}"}], "]"}]}]}], "\[IndentingNewLine]", "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<first distribution\>\"", ",", "Bold"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Mu]1", ",", "8"}], "}"}], ",", 
+     RowBox[{"-", "20"}], ",", "20", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Sigma]1", ",", "5"}], "}"}], ",", "1", ",", "10", ",", "1", 
+     ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "Delimiter", ",", "\[IndentingNewLine]", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<second distribution\>\"", ",", "Bold"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Mu]2", ",", 
+       RowBox[{"-", "12"}]}], "}"}], ",", 
+     RowBox[{"-", "20"}], ",", "20", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[Sigma]2", ",", "3"}], "}"}], ",", "1", ",", "10", ",", "1", 
+     ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "Delimiter", ",", "\[IndentingNewLine]", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<probability\>\"", ",", "Bold"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"p1", ",", ".3", ",", "\"\<p\>\""}], "}"}], ",", ".1", ",", 
+     ".9", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "Delimiter", ",", "\[IndentingNewLine]", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<number of samples\>\"", ",", "Bold"}], "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"numsamples", ",", "100", ",", "\"\<\>\""}], "}"}], ",", "50", 
+     ",", "200", ",", "10", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Style", "[", 
+    RowBox[{
+    "\"\<number of iterations\\nof EM algorithm\>\"", ",", " ", "Bold"}], 
+    "]"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"numiterations", ",", "3", ",", "\"\<\>\""}], "}"}], ",", "1", 
+     ",", "20", ",", "1", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "Delimiter", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"sr", ",", "326", ",", "\"\<random seed\>\""}], "}"}], ",", "1",
+      ",", "9999", ",", "1", ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}], ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"ControlPlacement", "\[Rule]", "Left"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Initialization", "\[RuleDelayed]", 
+    RowBox[{"(", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"problists", "[", 
+        RowBox[{"\[Theta]_", ",", "y_"}], "]"}], ":=", 
+       RowBox[{"Block", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"probs", ",", "totalprobs"}], "}"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"probs", "=", 
+           RowBox[{"Table", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"\[Theta]", "[", 
+               RowBox[{"[", 
+                RowBox[{"3", ",", "i"}], "]"}], "]"}], "*", 
+              RowBox[{"Map", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"PDF", "[", 
+                  RowBox[{
+                   RowBox[{"Apply", "[", 
+                    RowBox[{"NormalDistribution", ",", 
+                    RowBox[{"\[Theta]", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", "#"}], 
+                  "]"}], "&"}], ",", "y"}], "]"}]}], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "2"}], "}"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"totalprobs", "=", 
+           RowBox[{"Total", "[", "probs", "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Map", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"#", "/", "totalprobs"}], "&"}], ",", "probs"}], 
+           "]"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"pi", "[", 
+        RowBox[{"j_", ",", "p_"}], "]"}], ":=", 
+       RowBox[{"Mean", "[", 
+        RowBox[{"p", "[", 
+         RowBox[{"[", "j", "]"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      
+      RowBox[{
+       RowBox[{"emu", "[", 
+        RowBox[{"sim_", ",", "j_", ",", "p_"}], "]"}], ":=", 
+       FractionBox[
+        RowBox[{"Total", "[", 
+         RowBox[{"sim", "*", 
+          RowBox[{"p", "[", 
+           RowBox[{"[", "j", "]"}], "]"}]}], "]"}], 
+        RowBox[{"Total", "[", 
+         RowBox[{"p", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], "]"}]]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"emstd", "[", 
+        RowBox[{"sim_", ",", "j_", ",", "u_List", ",", "p_"}], "]"}], ":=", 
+       FractionBox[
+        RowBox[{"Total", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"sim", "-", 
+             RowBox[{"u", "[", 
+              RowBox[{"[", "j", "]"}], "]"}]}], ")"}], "^", "2"}], "*", 
+          RowBox[{"p", "[", 
+           RowBox[{"[", "j", "]"}], "]"}]}], "]"}], 
+        RowBox[{"Total", "[", 
+         RowBox[{"p", "[", 
+          RowBox[{"[", "j", "]"}], "]"}], "]"}]]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"em", "[", 
+        RowBox[{"params_", ",", "sim_"}], "]"}], ":=", 
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"theprobs", ",", "mus", ",", "vars", ",", "probs"}], "}"}], 
+         ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"theprobs", "=", 
+           RowBox[{"problists", "[", 
+            RowBox[{"params", ",", "sim"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"mus", "=", 
+           RowBox[{"Map", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"emu", "[", 
+               RowBox[{"sim", ",", "#", ",", "theprobs"}], "]"}], "&"}], ",", 
+             
+             RowBox[{"{", 
+              RowBox[{"1", ",", "2"}], "}"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"vars", "=", 
+           RowBox[{"Map", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"emstd", "[", 
+               RowBox[{"sim", ",", "#", ",", 
+                RowBox[{"params", "[", 
+                 RowBox[{"[", 
+                  RowBox[{
+                   RowBox[{"1", ";;", "2"}], ",", "1"}], "]"}], "]"}], ",", 
+                "theprobs"}], "]"}], "&"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "2"}], "}"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"probs", "=", 
+           RowBox[{"Map", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"pi", "[", 
+               RowBox[{"#", ",", "theprobs"}], "]"}], "&"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "2"}], "}"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Append", "[", 
+           RowBox[{
+            RowBox[{"Transpose", "[", 
+             RowBox[{"{", 
+              RowBox[{"mus", ",", 
+               RowBox[{"vars", "^", ".5"}]}], "}"}], "]"}], ",", "probs"}], 
+           "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", ")"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4253996902865343`*^9, 3.425399690531672*^9}, {
+   3.4253997511215*^9, 3.425399756576371*^9}, {3.4254000776709337`*^9, 
+   3.425400316833555*^9}, {3.42540037279455*^9, 3.4254004405071898`*^9}, {
+   3.425400478487996*^9, 3.425400489737947*^9}, {3.425400545713931*^9, 
+   3.425400593694769*^9}, {3.4254006318938503`*^9, 3.425400638314022*^9}, 
+   3.425400804602655*^9, {3.4254008622600527`*^9, 3.425400862338091*^9}, 
+   3.425400944156349*^9, {3.42540188755844*^9, 3.425401977649206*^9}, {
+   3.42540205501049*^9, 3.42540211351344*^9}, {3.425402144750641*^9, 
+   3.4254021861897097`*^9}, {3.4254022649598722`*^9, 3.425402368866927*^9}, {
+   3.4254024149566383`*^9, 3.4254024417515907`*^9}, {3.425402474778564*^9, 
+   3.425402480653578*^9}, {3.4254025369574327`*^9, 3.4254025837743893`*^9}, {
+   3.425464627876793*^9, 3.425464645946722*^9}, {3.425464737519721*^9, 
+   3.4254647568215103`*^9}, {3.425464822144449*^9, 3.425464931104179*^9}, {
+   3.425465811506226*^9, 3.4254659170844307`*^9}, {3.4254661517497253`*^9, 
+   3.425466236684471*^9}, {3.425466275012518*^9, 3.425466280231491*^9}, {
+   3.425466363589363*^9, 3.4254663746655817`*^9}, {3.4254664657375107`*^9, 
+   3.425466597197991*^9}, 3.42546666884054*^9, {3.425466742650816*^9, 
+   3.425466794152808*^9}, {3.4254668433928137`*^9, 3.425466952310774*^9}, {
+   3.425467008604723*^9, 3.425467023000125*^9}, {3.425467152848119*^9, 
+   3.425467154593226*^9}, {3.425467205263575*^9, 3.425467221795947*^9}, {
+   3.425467291545679*^9, 3.4254673204116373`*^9}, {3.4254674721319227`*^9, 
+   3.425467472553443*^9}, {3.425676620828125*^9, 3.425676653109375*^9}, 
+   3.425676713515625*^9, {3.425676790625*^9, 3.425676823703125*^9}, {
+   3.425676886109375*^9, 3.42567692221875*^9}, {3.425676971484375*^9, 
+   3.42567699678125*^9}, {3.425677118328125*^9, 3.42567716628125*^9}, {
+   3.425677726590254*^9, 3.425677729233665*^9}, {3.425677794933886*^9, 
+   3.4256777965826674`*^9}, {3.4256778582916718`*^9, 3.425677892388236*^9}, {
+   3.425677944161957*^9, 3.4256779454520283`*^9}, {3.425678121795849*^9, 
+   3.425678123789239*^9}, 3.425678159192049*^9, {3.425678199658801*^9, 
+   3.425678332471949*^9}, {3.4256783626359043`*^9, 3.425678362881975*^9}, {
+   3.425678399637487*^9, 3.425678399861211*^9}, {3.425678663685239*^9, 
+   3.4256786797730207`*^9}, {3.425678738722451*^9, 3.425678745866547*^9}, {
+   3.425680121984375*^9, 3.42568017953125*^9}, {3.42568021334375*^9, 
+   3.42568028121875*^9}, 3.425915224349928*^9, {3.4259152739908705`*^9, 
+   3.4259152789596524`*^9}, {3.4262668515182*^9, 3.4262668614902*^9}, {
+   3.4262669556602*^9, 3.4262669565382*^9}, {3.4263468711100597`*^9, 
+   3.426346879906945*^9}, {3.426346975060398*^9, 3.426346982074244*^9}, 
+   3.4263479315854387`*^9, {3.505668181318963*^9, 3.5056682092147527`*^9}, {
+   3.5056682614869795`*^9, 3.5056682622410545`*^9}, {3.505668295565387*^9, 
+   3.5056683071485453`*^9}, {3.5056683650423336`*^9, 
+   3.5056684138332124`*^9}, {3.505668591841011*^9, 3.5056686463164587`*^9}, {
+   3.5056686796527915`*^9, 3.5056686905708838`*^9}},
+ CellID->2041533697],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`numiterations$$ = 
+    3, $CellContext`numsamples$$ = 100, $CellContext`p1$$ = 
+    0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+    8, $CellContext`\[Mu]2$$ = -12, $CellContext`\[Sigma]1$$ = 
+    5, $CellContext`\[Sigma]2$$ = 3, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["first distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]1$$], 8}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]1$$], 5}, 1, 10, 1}, {
+      Hold[
+       Style["second distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]2$$], -12}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]2$$], 3}, 1, 10, 1}, {
+      Hold[
+       Style["probability", Bold]], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`p1$$], 0.3, "p"}, 0.1, 0.9}, {
+      Hold[
+       Style["number of samples", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numsamples$$], 100, ""}, 50, 200, 10}, {
+      Hold[
+       Style["number of iterations\nof EM algorithm", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numiterations$$], 3, ""}, 1, 20, 1}, {{
+       Hold[$CellContext`sr$$], 326, "random seed"}, 1, 9999, 1}}, 
+    Typeset`size$$ = {400., {173., 178.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`\[Mu]1$4895$$ = 0, $CellContext`\[Sigma]1$4896$$ = 
+    0, $CellContext`\[Mu]2$4897$$ = 0, $CellContext`\[Sigma]2$4898$$ = 
+    0, $CellContext`p1$4899$$ = 0, $CellContext`numsamples$4900$$ = 
+    0, $CellContext`numiterations$4901$$ = 0, $CellContext`sr$4902$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`numiterations$$ = 
+        3, $CellContext`numsamples$$ = 100, $CellContext`p1$$ = 
+        0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+        8, $CellContext`\[Mu]2$$ = -12, $CellContext`\[Sigma]1$$ = 
+        5, $CellContext`\[Sigma]2$$ = 3}, "ControllerVariables" :> {
+        Hold[$CellContext`\[Mu]1$$, $CellContext`\[Mu]1$4895$$, 0], 
+        Hold[$CellContext`\[Sigma]1$$, $CellContext`\[Sigma]1$4896$$, 0], 
+        Hold[$CellContext`\[Mu]2$$, $CellContext`\[Mu]2$4897$$, 0], 
+        Hold[$CellContext`\[Sigma]2$$, $CellContext`\[Sigma]2$4898$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$4899$$, 0], 
+        Hold[$CellContext`numsamples$$, $CellContext`numsamples$4900$$, 0], 
+        Hold[$CellContext`numiterations$$, $CellContext`numiterations$4901$$, 
+         0], 
+        Hold[$CellContext`sr$$, $CellContext`sr$4902$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`d1$, $CellContext`d2$, $CellContext`sim$, \
+$CellContext`updates$}, 
+        SeedRandom[$CellContext`sr$$]; $CellContext`d1$ = 
+         NormalDistribution[$CellContext`\[Mu]1$$, $CellContext`\[Sigma]1$$]; \
+$CellContext`d2$ = 
+         NormalDistribution[$CellContext`\[Mu]2$$, $CellContext`\[Sigma]2$$]; \
+$CellContext`sim$ = 
+         With[{$CellContext`musAndsigmas$ = 
+            RandomChoice[{$CellContext`p1$$, 
+                1 - $CellContext`p1$$} -> {{$CellContext`\[Mu]1$$, \
+$CellContext`\[Sigma]1$$}, {$CellContext`\[Mu]2$$, \
+$CellContext`\[Sigma]2$$}}, $CellContext`numsamples$$]}, 
+           Part[$CellContext`musAndsigmas$, All, 2] RandomReal[
+              NormalDistribution[], $CellContext`numsamples$$] + 
+           Part[$CellContext`musAndsigmas$, All, 1]]; $CellContext`updates$ = 
+         NestList[$CellContext`em[#, $CellContext`sim$]& , {{-10, 5}, {5, 
+            5}, {0.2, 0.8}}, $CellContext`numiterations$$]; Grid[{{
+            Show[{
+              
+              Histogram[$CellContext`sim$, Automatic, "PDF", 
+               PlotRange -> {{-30, 30}, {0, Automatic}}], 
+              Plot[{Part[$CellContext`updates$, -1, 3, 1] PDF[
+                  Apply[NormalDistribution, 
+                   Part[$CellContext`updates$, -1, 1]], $CellContext`x], 
+                Part[$CellContext`updates$, -1, 3, 2] PDF[
+                  Apply[NormalDistribution, 
+                   
+                   Part[$CellContext`updates$, -1, 
+                    2]], $CellContext`x]}, {$CellContext`x, -30, 30}, 
+               PlotStyle -> {{Red, Thick}, {Blue, Thick}}, PerformanceGoal -> 
+               "Speed", PlotRange -> All]}, ImageSize -> {400, 275}, 
+             AxesOrigin -> {-30, 0}]}, {
+            Grid[{{
+               Panel[
+                TableForm[
+                 Part[$CellContext`updates$, -1, 
+                  Span[1, 2]], TableHeadings -> {
+                   Part[$CellContext`updates$, -1, 3], {
+                   "\[Mu]", "\[Sigma]"}}]]}}]}}]], "Specifications" :> {
+        Style[
+        "first distribution", Bold], {{$CellContext`\[Mu]1$$, 8}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]1$$, 5}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "second distribution", Bold], {{$CellContext`\[Mu]2$$, -12}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]2$$, 3}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "probability", Bold], {{$CellContext`p1$$, 0.3, "p"}, 0.1, 0.9, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "number of samples", Bold], {{$CellContext`numsamples$$, 100, ""}, 50,
+          200, 10, ImageSize -> Tiny, Appearance -> "Labeled"}, 
+        Style[
+        "number of iterations\nof EM algorithm", 
+         Bold], {{$CellContext`numiterations$$, 3, ""}, 1, 20, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, 
+        Delimiter, {{$CellContext`sr$$, 326, "random seed"}, 1, 9999, 1, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}}, 
+      "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{656., {204., 209.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>(($CellContext`problists[
+         Pattern[$CellContext`\[Theta], 
+          Blank[]], 
+         Pattern[$CellContext`y, 
+          Blank[]]] := 
+       Block[{$CellContext`probs, $CellContext`totalprobs}, \
+$CellContext`probs = 
+          Table[Part[$CellContext`\[Theta], 3, $CellContext`i] Map[PDF[
+               Apply[NormalDistribution, 
+                
+                Part[$CellContext`\[Theta], $CellContext`i]], #]& , \
+$CellContext`y], {$CellContext`i, 2}]; $CellContext`totalprobs = 
+          Total[$CellContext`probs]; 
+         Map[#/$CellContext`totalprobs& , $CellContext`probs]]; \
+$CellContext`pi[
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := Mean[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emu[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[$CellContext`sim Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emstd[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`u, 
+          Blank[List]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[($CellContext`sim - Part[$CellContext`u, $CellContext`j])^2 
+          Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`em[
+         Pattern[$CellContext`params, 
+          Blank[]], 
+         Pattern[$CellContext`sim, 
+          Blank[]]] := 
+       Module[{$CellContext`theprobs, $CellContext`mus, $CellContext`vars, \
+$CellContext`probs}, $CellContext`theprobs = \
+$CellContext`problists[$CellContext`params, $CellContext`sim]; \
+$CellContext`mus = 
+          Map[$CellContext`emu[$CellContext`sim, #, $CellContext`theprobs]& , \
+{1, 2}]; $CellContext`vars = Map[$CellContext`emstd[$CellContext`sim, #, 
+             Part[$CellContext`params, 
+              Span[1, 2], 1], $CellContext`theprobs]& , {1, 
+            2}]; $CellContext`probs = 
+          Map[$CellContext`pi[#, $CellContext`theprobs]& , {1, 2}]; Append[
+           
+           Transpose[{$CellContext`mus, $CellContext`vars^0.5}], \
+$CellContext`probs]]; Null); Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->522223129]
+}, {2}]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ManipulateCaptionSection"],
+
+Cell[TextData[{
+ "This Demonstration shows an implementation of the expectation-maximization \
+algorithm for Gaussian mixture distributions. Given a sample dataset drawn \
+from two Gaussians with probability ",
+ Cell[BoxData[
+  FormBox["p", TraditionalForm]], "InlineMath"],
+ " of the ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["i", "th"], TraditionalForm]], "InlineMath"],
+ " data point being drawn from the first Gaussian distribution and \
+probability 1-",
+ Cell[BoxData[
+  FormBox["p", TraditionalForm]], "InlineMath"],
+ " of the ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["i", "th"], TraditionalForm]], "InlineMath"],
+ " data point being drawn from the second Gaussian, the \
+expectation-maximization algorithm iteratively estimates the maximum \
+likelihood of the mean and variance of the two Gaussian distributions and the \
+parameter ",
+ Cell[BoxData[
+  FormBox["p", TraditionalForm]], "InlineMath"],
+ ". The plot shows the random sample from the distributions and the final \
+estimate of the distributions.",
+ " ",
+ "The table shows the parameters of the distributions and the probability of \
+drawing from that distribution on the left."
+}], "ManipulateCaption",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.425402682382826*^9, 3.425402798998131*^9}, {
+   3.425467391574347*^9, 3.4254674499255466`*^9}, {3.425677054296875*^9, 
+   3.425677091078125*^9}, {3.4256779971225233`*^9, 3.425678030440037*^9}, {
+   3.4259967861313334`*^9, 3.425996812317952*^9}, {3.425996847177438*^9, 
+   3.4259968535860786`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ThumbnailSection"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`numiterations$$ = 
+    7, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+    0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+    8, $CellContext`\[Mu]2$$ = -17., $CellContext`\[Sigma]1$$ = 
+    5, $CellContext`\[Sigma]2$$ = 1.51, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["first distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]1$$], 8}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]1$$], 5}, 1, 10, 1}, {
+      Hold[
+       Style["second distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]2$$], -17.}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]2$$], 1.51}, 1, 10, 1}, {
+      Hold[
+       Style["probability", Bold]], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`p1$$], 0.3, "p"}, 0.1, 0.9}, {
+      Hold[
+       Style["number of samples", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numsamples$$], 200, ""}, 50, 200, 10}, {
+      Hold[
+       Style["number of iterations\nof EM algorithm", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numiterations$$], 7, ""}, 1, 20, 1}, {{
+       Hold[$CellContext`sr$$], 326, "random seed"}, 1, 9999, 1}}, 
+    Typeset`size$$ = {400., {173., 178.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    False, $CellContext`\[Mu]1$4992$$ = 0, $CellContext`\[Sigma]1$4993$$ = 
+    0, $CellContext`\[Mu]2$4994$$ = 0, $CellContext`\[Sigma]2$4995$$ = 
+    0, $CellContext`p1$4996$$ = 0, $CellContext`numsamples$4997$$ = 
+    0, $CellContext`numiterations$4998$$ = 0, $CellContext`sr$4999$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`numiterations$$ = 
+        7, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+        0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+        8, $CellContext`\[Mu]2$$ = -17., $CellContext`\[Sigma]1$$ = 
+        5, $CellContext`\[Sigma]2$$ = 1.51}, "ControllerVariables" :> {
+        Hold[$CellContext`\[Mu]1$$, $CellContext`\[Mu]1$4992$$, 0], 
+        Hold[$CellContext`\[Sigma]1$$, $CellContext`\[Sigma]1$4993$$, 0], 
+        Hold[$CellContext`\[Mu]2$$, $CellContext`\[Mu]2$4994$$, 0], 
+        Hold[$CellContext`\[Sigma]2$$, $CellContext`\[Sigma]2$4995$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$4996$$, 0], 
+        Hold[$CellContext`numsamples$$, $CellContext`numsamples$4997$$, 0], 
+        Hold[$CellContext`numiterations$$, $CellContext`numiterations$4998$$, 
+         0], 
+        Hold[$CellContext`sr$$, $CellContext`sr$4999$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`d1$, $CellContext`d2$, $CellContext`sim$, \
+$CellContext`updates$}, 
+        SeedRandom[$CellContext`sr$$]; $CellContext`d1$ = 
+         NormalDistribution[$CellContext`\[Mu]1$$, $CellContext`\[Sigma]1$$]; \
+$CellContext`d2$ = 
+         NormalDistribution[$CellContext`\[Mu]2$$, $CellContext`\[Sigma]2$$]; \
+$CellContext`sim$ = 
+         With[{$CellContext`musAndsigmas$ = 
+            RandomChoice[{$CellContext`p1$$, 
+                1 - $CellContext`p1$$} -> {{$CellContext`\[Mu]1$$, \
+$CellContext`\[Sigma]1$$}, {$CellContext`\[Mu]2$$, \
+$CellContext`\[Sigma]2$$}}, $CellContext`numsamples$$]}, 
+           Part[$CellContext`musAndsigmas$, All, 2] RandomReal[
+              NormalDistribution[], $CellContext`numsamples$$] + 
+           Part[$CellContext`musAndsigmas$, All, 1]]; $CellContext`updates$ = 
+         NestList[$CellContext`em[#, $CellContext`sim$]& , {{-10, 5}, {5, 
+            5}, {0.2, 0.8}}, $CellContext`numiterations$$]; Grid[{{
+            Show[{
+              
+              Histogram[$CellContext`sim$, Automatic, "PDF", 
+               PlotRange -> {{-30, 30}, {0, Automatic}}], 
+              Plot[{Part[$CellContext`updates$, -1, 3, 1] PDF[
+                  Apply[NormalDistribution, 
+                   Part[$CellContext`updates$, -1, 1]], $CellContext`x], 
+                Part[$CellContext`updates$, -1, 3, 2] PDF[
+                  Apply[NormalDistribution, 
+                   
+                   Part[$CellContext`updates$, -1, 
+                    2]], $CellContext`x]}, {$CellContext`x, -30, 30}, 
+               PlotStyle -> {{Red, Thick}, {Blue, Thick}}, PerformanceGoal -> 
+               "Speed", PlotRange -> All]}, ImageSize -> {400, 275}, 
+             AxesOrigin -> {-30, 0}]}, {
+            Grid[{{
+               Panel[
+                TableForm[
+                 Part[$CellContext`updates$, -1, 
+                  Span[1, 2]], TableHeadings -> {
+                   Part[$CellContext`updates$, -1, 3], {
+                   "\[Mu]", "\[Sigma]"}}]]}}]}}]], "Specifications" :> {
+        Style[
+        "first distribution", Bold], {{$CellContext`\[Mu]1$$, 8}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]1$$, 5}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "second distribution", Bold], {{$CellContext`\[Mu]2$$, -17.}, -20, 20,
+          ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]2$$, 1.51}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "probability", Bold], {{$CellContext`p1$$, 0.3, "p"}, 0.1, 0.9, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "number of samples", Bold], {{$CellContext`numsamples$$, 200, ""}, 50,
+          200, 10, ImageSize -> Tiny, Appearance -> "Labeled"}, 
+        Style[
+        "number of iterations\nof EM algorithm", 
+         Bold], {{$CellContext`numiterations$$, 7, ""}, 1, 20, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, 
+        Delimiter, {{$CellContext`sr$$, 326, "random seed"}, 1, 9999, 1, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}}, 
+      "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{656., {204., 209.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>(($CellContext`problists[
+         Pattern[$CellContext`\[Theta], 
+          Blank[]], 
+         Pattern[$CellContext`y, 
+          Blank[]]] := 
+       Block[{$CellContext`probs, $CellContext`totalprobs}, \
+$CellContext`probs = 
+          Table[Part[$CellContext`\[Theta], 3, $CellContext`i] Map[PDF[
+               Apply[NormalDistribution, 
+                
+                Part[$CellContext`\[Theta], $CellContext`i]], #]& , \
+$CellContext`y], {$CellContext`i, 2}]; $CellContext`totalprobs = 
+          Total[$CellContext`probs]; 
+         Map[#/$CellContext`totalprobs& , $CellContext`probs]]; \
+$CellContext`pi[
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := Mean[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emu[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[$CellContext`sim Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emstd[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`u, 
+          Blank[List]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[($CellContext`sim - Part[$CellContext`u, $CellContext`j])^2 
+          Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`em[
+         Pattern[$CellContext`params, 
+          Blank[]], 
+         Pattern[$CellContext`sim, 
+          Blank[]]] := 
+       Module[{$CellContext`theprobs, $CellContext`mus, $CellContext`vars, \
+$CellContext`probs}, $CellContext`theprobs = \
+$CellContext`problists[$CellContext`params, $CellContext`sim]; \
+$CellContext`mus = 
+          Map[$CellContext`emu[$CellContext`sim, #, $CellContext`theprobs]& , \
+{1, 2}]; $CellContext`vars = Map[$CellContext`emstd[$CellContext`sim, #, 
+             Part[$CellContext`params, 
+              Span[1, 2], 1], $CellContext`theprobs]& , {1, 
+            2}]; $CellContext`probs = 
+          Map[$CellContext`pi[#, $CellContext`theprobs]& , {1, 2}]; Append[
+           
+           Transpose[{$CellContext`mus, $CellContext`vars^0.5}], \
+$CellContext`probs]]; Null); Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->117873207]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SnapshotsSection"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`numiterations$$ = 
+    7, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+    0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+    8, $CellContext`\[Mu]2$$ = -17., $CellContext`\[Sigma]1$$ = 
+    5, $CellContext`\[Sigma]2$$ = 1.51, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["first distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]1$$], 8}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]1$$], 5}, 1, 10, 1}, {
+      Hold[
+       Style["second distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]2$$], -17.}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]2$$], 1.51}, 1, 10, 1}, {
+      Hold[
+       Style["probability", Bold]], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`p1$$], 0.3, "p"}, 0.1, 0.9}, {
+      Hold[
+       Style["number of samples", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numsamples$$], 200, ""}, 50, 200, 10}, {
+      Hold[
+       Style["number of iterations\nof EM algorithm", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numiterations$$], 7, ""}, 1, 20, 1}, {{
+       Hold[$CellContext`sr$$], 326, "random seed"}, 1, 9999, 1}}, 
+    Typeset`size$$ = Automatic, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False, $CellContext`\[Mu]1$5089$$ = 
+    0, $CellContext`\[Sigma]1$5090$$ = 0, $CellContext`\[Mu]2$5091$$ = 
+    0, $CellContext`\[Sigma]2$5092$$ = 0, $CellContext`p1$5093$$ = 
+    0, $CellContext`numsamples$5094$$ = 0, $CellContext`numiterations$5095$$ =
+     0, $CellContext`sr$5096$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`numiterations$$ = 
+        7, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+        0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+        8, $CellContext`\[Mu]2$$ = -17., $CellContext`\[Sigma]1$$ = 
+        5, $CellContext`\[Sigma]2$$ = 1.51}, "ControllerVariables" :> {
+        Hold[$CellContext`\[Mu]1$$, $CellContext`\[Mu]1$5089$$, 0], 
+        Hold[$CellContext`\[Sigma]1$$, $CellContext`\[Sigma]1$5090$$, 0], 
+        Hold[$CellContext`\[Mu]2$$, $CellContext`\[Mu]2$5091$$, 0], 
+        Hold[$CellContext`\[Sigma]2$$, $CellContext`\[Sigma]2$5092$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$5093$$, 0], 
+        Hold[$CellContext`numsamples$$, $CellContext`numsamples$5094$$, 0], 
+        Hold[$CellContext`numiterations$$, $CellContext`numiterations$5095$$, 
+         0], 
+        Hold[$CellContext`sr$$, $CellContext`sr$5096$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`d1$, $CellContext`d2$, $CellContext`sim$, \
+$CellContext`updates$}, 
+        SeedRandom[$CellContext`sr$$]; $CellContext`d1$ = 
+         NormalDistribution[$CellContext`\[Mu]1$$, $CellContext`\[Sigma]1$$]; \
+$CellContext`d2$ = 
+         NormalDistribution[$CellContext`\[Mu]2$$, $CellContext`\[Sigma]2$$]; \
+$CellContext`sim$ = 
+         With[{$CellContext`musAndsigmas$ = 
+            RandomChoice[{$CellContext`p1$$, 
+                1 - $CellContext`p1$$} -> {{$CellContext`\[Mu]1$$, \
+$CellContext`\[Sigma]1$$}, {$CellContext`\[Mu]2$$, \
+$CellContext`\[Sigma]2$$}}, $CellContext`numsamples$$]}, 
+           Part[$CellContext`musAndsigmas$, All, 2] RandomReal[
+              NormalDistribution[], $CellContext`numsamples$$] + 
+           Part[$CellContext`musAndsigmas$, All, 1]]; $CellContext`updates$ = 
+         NestList[$CellContext`em[#, $CellContext`sim$]& , {{-10, 5}, {5, 
+            5}, {0.2, 0.8}}, $CellContext`numiterations$$]; Grid[{{
+            Show[{
+              
+              Histogram[$CellContext`sim$, Automatic, "PDF", 
+               PlotRange -> {{-30, 30}, {0, Automatic}}], 
+              Plot[{Part[$CellContext`updates$, -1, 3, 1] PDF[
+                  Apply[NormalDistribution, 
+                   Part[$CellContext`updates$, -1, 1]], $CellContext`x], 
+                Part[$CellContext`updates$, -1, 3, 2] PDF[
+                  Apply[NormalDistribution, 
+                   
+                   Part[$CellContext`updates$, -1, 
+                    2]], $CellContext`x]}, {$CellContext`x, -30, 30}, 
+               PlotStyle -> {{Red, Thick}, {Blue, Thick}}, PerformanceGoal -> 
+               "Speed", PlotRange -> All]}, ImageSize -> {400, 275}, 
+             AxesOrigin -> {-30, 0}]}, {
+            Grid[{{
+               Panel[
+                TableForm[
+                 Part[$CellContext`updates$, -1, 
+                  Span[1, 2]], TableHeadings -> {
+                   Part[$CellContext`updates$, -1, 3], {
+                   "\[Mu]", "\[Sigma]"}}]]}}]}}]], "Specifications" :> {
+        Style[
+        "first distribution", Bold], {{$CellContext`\[Mu]1$$, 8}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]1$$, 5}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "second distribution", Bold], {{$CellContext`\[Mu]2$$, -17.}, -20, 20,
+          ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]2$$, 1.51}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "probability", Bold], {{$CellContext`p1$$, 0.3, "p"}, 0.1, 0.9, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "number of samples", Bold], {{$CellContext`numsamples$$, 200, ""}, 50,
+          200, 10, ImageSize -> Tiny, Appearance -> "Labeled"}, 
+        Style[
+        "number of iterations\nof EM algorithm", 
+         Bold], {{$CellContext`numiterations$$, 7, ""}, 1, 20, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, 
+        Delimiter, {{$CellContext`sr$$, 326, "random seed"}, 1, 9999, 1, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}}, 
+      "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>(($CellContext`problists[
+         Pattern[$CellContext`\[Theta], 
+          Blank[]], 
+         Pattern[$CellContext`y, 
+          Blank[]]] := 
+       Block[{$CellContext`probs, $CellContext`totalprobs}, \
+$CellContext`probs = 
+          Table[Part[$CellContext`\[Theta], 3, $CellContext`i] Map[PDF[
+               Apply[NormalDistribution, 
+                
+                Part[$CellContext`\[Theta], $CellContext`i]], #]& , \
+$CellContext`y], {$CellContext`i, 2}]; $CellContext`totalprobs = 
+          Total[$CellContext`probs]; 
+         Map[#/$CellContext`totalprobs& , $CellContext`probs]]; \
+$CellContext`pi[
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := Mean[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emu[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[$CellContext`sim Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emstd[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`u, 
+          Blank[List]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[($CellContext`sim - Part[$CellContext`u, $CellContext`j])^2 
+          Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`em[
+         Pattern[$CellContext`params, 
+          Blank[]], 
+         Pattern[$CellContext`sim, 
+          Blank[]]] := 
+       Module[{$CellContext`theprobs, $CellContext`mus, $CellContext`vars, \
+$CellContext`probs}, $CellContext`theprobs = \
+$CellContext`problists[$CellContext`params, $CellContext`sim]; \
+$CellContext`mus = 
+          Map[$CellContext`emu[$CellContext`sim, #, $CellContext`theprobs]& , \
+{1, 2}]; $CellContext`vars = Map[$CellContext`emstd[$CellContext`sim, #, 
+             Part[$CellContext`params, 
+              Span[1, 2], 1], $CellContext`theprobs]& , {1, 
+            2}]; $CellContext`probs = 
+          Map[$CellContext`pi[#, $CellContext`theprobs]& , {1, 2}]; Append[
+           
+           Transpose[{$CellContext`mus, $CellContext`vars^0.5}], \
+$CellContext`probs]]; Null); Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->227089026],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`numiterations$$ = 
+    10, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+    0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+    8, $CellContext`\[Mu]2$$ = -17., $CellContext`\[Sigma]1$$ = 
+    5, $CellContext`\[Sigma]2$$ = 6.51, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["first distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]1$$], 8}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]1$$], 5}, 1, 10, 1}, {
+      Hold[
+       Style["second distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]2$$], -17.}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]2$$], 6.51}, 1, 10, 1}, {
+      Hold[
+       Style["probability", Bold]], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`p1$$], 0.3, "p"}, 0.1, 0.9}, {
+      Hold[
+       Style["number of samples", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numsamples$$], 200, ""}, 50, 200, 10}, {
+      Hold[
+       Style["number of iterations\nof EM algorithm", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numiterations$$], 10, ""}, 1, 20, 1}, {{
+       Hold[$CellContext`sr$$], 326, "random seed"}, 1, 9999, 1}}, 
+    Typeset`size$$ = Automatic, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False, $CellContext`\[Mu]1$5186$$ = 
+    0, $CellContext`\[Sigma]1$5187$$ = 0, $CellContext`\[Mu]2$5188$$ = 
+    0, $CellContext`\[Sigma]2$5189$$ = 0, $CellContext`p1$5190$$ = 
+    0, $CellContext`numsamples$5191$$ = 0, $CellContext`numiterations$5192$$ =
+     0, $CellContext`sr$5193$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`numiterations$$ = 
+        10, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+        0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+        8, $CellContext`\[Mu]2$$ = -17., $CellContext`\[Sigma]1$$ = 
+        5, $CellContext`\[Sigma]2$$ = 6.51}, "ControllerVariables" :> {
+        Hold[$CellContext`\[Mu]1$$, $CellContext`\[Mu]1$5186$$, 0], 
+        Hold[$CellContext`\[Sigma]1$$, $CellContext`\[Sigma]1$5187$$, 0], 
+        Hold[$CellContext`\[Mu]2$$, $CellContext`\[Mu]2$5188$$, 0], 
+        Hold[$CellContext`\[Sigma]2$$, $CellContext`\[Sigma]2$5189$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$5190$$, 0], 
+        Hold[$CellContext`numsamples$$, $CellContext`numsamples$5191$$, 0], 
+        Hold[$CellContext`numiterations$$, $CellContext`numiterations$5192$$, 
+         0], 
+        Hold[$CellContext`sr$$, $CellContext`sr$5193$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`d1$, $CellContext`d2$, $CellContext`sim$, \
+$CellContext`updates$}, 
+        SeedRandom[$CellContext`sr$$]; $CellContext`d1$ = 
+         NormalDistribution[$CellContext`\[Mu]1$$, $CellContext`\[Sigma]1$$]; \
+$CellContext`d2$ = 
+         NormalDistribution[$CellContext`\[Mu]2$$, $CellContext`\[Sigma]2$$]; \
+$CellContext`sim$ = 
+         With[{$CellContext`musAndsigmas$ = 
+            RandomChoice[{$CellContext`p1$$, 
+                1 - $CellContext`p1$$} -> {{$CellContext`\[Mu]1$$, \
+$CellContext`\[Sigma]1$$}, {$CellContext`\[Mu]2$$, \
+$CellContext`\[Sigma]2$$}}, $CellContext`numsamples$$]}, 
+           Part[$CellContext`musAndsigmas$, All, 2] RandomReal[
+              NormalDistribution[], $CellContext`numsamples$$] + 
+           Part[$CellContext`musAndsigmas$, All, 1]]; $CellContext`updates$ = 
+         NestList[$CellContext`em[#, $CellContext`sim$]& , {{-10, 5}, {5, 
+            5}, {0.2, 0.8}}, $CellContext`numiterations$$]; Grid[{{
+            Show[{
+              
+              Histogram[$CellContext`sim$, Automatic, "PDF", 
+               PlotRange -> {{-30, 30}, {0, Automatic}}], 
+              Plot[{Part[$CellContext`updates$, -1, 3, 1] PDF[
+                  Apply[NormalDistribution, 
+                   Part[$CellContext`updates$, -1, 1]], $CellContext`x], 
+                Part[$CellContext`updates$, -1, 3, 2] PDF[
+                  Apply[NormalDistribution, 
+                   
+                   Part[$CellContext`updates$, -1, 
+                    2]], $CellContext`x]}, {$CellContext`x, -30, 30}, 
+               PlotStyle -> {{Red, Thick}, {Blue, Thick}}, PerformanceGoal -> 
+               "Speed", PlotRange -> All]}, ImageSize -> {400, 275}, 
+             AxesOrigin -> {-30, 0}]}, {
+            Grid[{{
+               Panel[
+                TableForm[
+                 Part[$CellContext`updates$, -1, 
+                  Span[1, 2]], TableHeadings -> {
+                   Part[$CellContext`updates$, -1, 3], {
+                   "\[Mu]", "\[Sigma]"}}]]}}]}}]], "Specifications" :> {
+        Style[
+        "first distribution", Bold], {{$CellContext`\[Mu]1$$, 8}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]1$$, 5}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "second distribution", Bold], {{$CellContext`\[Mu]2$$, -17.}, -20, 20,
+          ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]2$$, 6.51}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "probability", Bold], {{$CellContext`p1$$, 0.3, "p"}, 0.1, 0.9, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "number of samples", Bold], {{$CellContext`numsamples$$, 200, ""}, 50,
+          200, 10, ImageSize -> Tiny, Appearance -> "Labeled"}, 
+        Style[
+        "number of iterations\nof EM algorithm", 
+         Bold], {{$CellContext`numiterations$$, 10, ""}, 1, 20, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, 
+        Delimiter, {{$CellContext`sr$$, 326, "random seed"}, 1, 9999, 1, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}}, 
+      "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>(($CellContext`problists[
+         Pattern[$CellContext`\[Theta], 
+          Blank[]], 
+         Pattern[$CellContext`y, 
+          Blank[]]] := 
+       Block[{$CellContext`probs, $CellContext`totalprobs}, \
+$CellContext`probs = 
+          Table[Part[$CellContext`\[Theta], 3, $CellContext`i] Map[PDF[
+               Apply[NormalDistribution, 
+                
+                Part[$CellContext`\[Theta], $CellContext`i]], #]& , \
+$CellContext`y], {$CellContext`i, 2}]; $CellContext`totalprobs = 
+          Total[$CellContext`probs]; 
+         Map[#/$CellContext`totalprobs& , $CellContext`probs]]; \
+$CellContext`pi[
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := Mean[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emu[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[$CellContext`sim Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emstd[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`u, 
+          Blank[List]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[($CellContext`sim - Part[$CellContext`u, $CellContext`j])^2 
+          Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`em[
+         Pattern[$CellContext`params, 
+          Blank[]], 
+         Pattern[$CellContext`sim, 
+          Blank[]]] := 
+       Module[{$CellContext`theprobs, $CellContext`mus, $CellContext`vars, \
+$CellContext`probs}, $CellContext`theprobs = \
+$CellContext`problists[$CellContext`params, $CellContext`sim]; \
+$CellContext`mus = 
+          Map[$CellContext`emu[$CellContext`sim, #, $CellContext`theprobs]& , \
+{1, 2}]; $CellContext`vars = Map[$CellContext`emstd[$CellContext`sim, #, 
+             Part[$CellContext`params, 
+              Span[1, 2], 1], $CellContext`theprobs]& , {1, 
+            2}]; $CellContext`probs = 
+          Map[$CellContext`pi[#, $CellContext`theprobs]& , {1, 2}]; Append[
+           
+           Transpose[{$CellContext`mus, $CellContext`vars^0.5}], \
+$CellContext`probs]]; Null); Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->228959262],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`numiterations$$ = 
+    4, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+    0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+    8, $CellContext`\[Mu]2$$ = -3.599999999999998, $CellContext`\[Sigma]1$$ = 
+    5, $CellContext`\[Sigma]2$$ = 1.51, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["first distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]1$$], 8}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]1$$], 5}, 1, 10, 1}, {
+      Hold[
+       Style["second distribution", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`\[Mu]2$$], -3.599999999999998}, -20, 20}, {{
+       Hold[$CellContext`\[Sigma]2$$], 1.51}, 1, 10, 1}, {
+      Hold[
+       Style["probability", Bold]], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`p1$$], 0.3, "p"}, 0.1, 0.9}, {
+      Hold[
+       Style["number of samples", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numsamples$$], 200, ""}, 50, 200, 10}, {
+      Hold[
+       Style["number of iterations\nof EM algorithm", Bold]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`numiterations$$], 4, ""}, 1, 20, 1}, {{
+       Hold[$CellContext`sr$$], 326, "random seed"}, 1, 9999, 1}}, 
+    Typeset`size$$ = Automatic, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = False, $CellContext`\[Mu]1$5283$$ = 
+    0, $CellContext`\[Sigma]1$5284$$ = 0, $CellContext`\[Mu]2$5285$$ = 
+    0, $CellContext`\[Sigma]2$5286$$ = 0, $CellContext`p1$5287$$ = 
+    0, $CellContext`numsamples$5288$$ = 0, $CellContext`numiterations$5289$$ =
+     0, $CellContext`sr$5290$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`numiterations$$ = 
+        4, $CellContext`numsamples$$ = 200, $CellContext`p1$$ = 
+        0.3, $CellContext`sr$$ = 326, $CellContext`\[Mu]1$$ = 
+        8, $CellContext`\[Mu]2$$ = -3.599999999999998, \
+$CellContext`\[Sigma]1$$ = 5, $CellContext`\[Sigma]2$$ = 1.51}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`\[Mu]1$$, $CellContext`\[Mu]1$5283$$, 0], 
+        Hold[$CellContext`\[Sigma]1$$, $CellContext`\[Sigma]1$5284$$, 0], 
+        Hold[$CellContext`\[Mu]2$$, $CellContext`\[Mu]2$5285$$, 0], 
+        Hold[$CellContext`\[Sigma]2$$, $CellContext`\[Sigma]2$5286$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$5287$$, 0], 
+        Hold[$CellContext`numsamples$$, $CellContext`numsamples$5288$$, 0], 
+        Hold[$CellContext`numiterations$$, $CellContext`numiterations$5289$$, 
+         0], 
+        Hold[$CellContext`sr$$, $CellContext`sr$5290$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`d1$, $CellContext`d2$, $CellContext`sim$, \
+$CellContext`updates$}, 
+        SeedRandom[$CellContext`sr$$]; $CellContext`d1$ = 
+         NormalDistribution[$CellContext`\[Mu]1$$, $CellContext`\[Sigma]1$$]; \
+$CellContext`d2$ = 
+         NormalDistribution[$CellContext`\[Mu]2$$, $CellContext`\[Sigma]2$$]; \
+$CellContext`sim$ = 
+         With[{$CellContext`musAndsigmas$ = 
+            RandomChoice[{$CellContext`p1$$, 
+                1 - $CellContext`p1$$} -> {{$CellContext`\[Mu]1$$, \
+$CellContext`\[Sigma]1$$}, {$CellContext`\[Mu]2$$, \
+$CellContext`\[Sigma]2$$}}, $CellContext`numsamples$$]}, 
+           Part[$CellContext`musAndsigmas$, All, 2] RandomReal[
+              NormalDistribution[], $CellContext`numsamples$$] + 
+           Part[$CellContext`musAndsigmas$, All, 1]]; $CellContext`updates$ = 
+         NestList[$CellContext`em[#, $CellContext`sim$]& , {{-10, 5}, {5, 
+            5}, {0.2, 0.8}}, $CellContext`numiterations$$]; Grid[{{
+            Show[{
+              
+              Histogram[$CellContext`sim$, Automatic, "PDF", 
+               PlotRange -> {{-30, 30}, {0, Automatic}}], 
+              Plot[{Part[$CellContext`updates$, -1, 3, 1] PDF[
+                  Apply[NormalDistribution, 
+                   Part[$CellContext`updates$, -1, 1]], $CellContext`x], 
+                Part[$CellContext`updates$, -1, 3, 2] PDF[
+                  Apply[NormalDistribution, 
+                   
+                   Part[$CellContext`updates$, -1, 
+                    2]], $CellContext`x]}, {$CellContext`x, -30, 30}, 
+               PlotStyle -> {{Red, Thick}, {Blue, Thick}}, PerformanceGoal -> 
+               "Speed", PlotRange -> All]}, ImageSize -> {400, 275}, 
+             AxesOrigin -> {-30, 0}]}, {
+            Grid[{{
+               Panel[
+                TableForm[
+                 Part[$CellContext`updates$, -1, 
+                  Span[1, 2]], TableHeadings -> {
+                   Part[$CellContext`updates$, -1, 3], {
+                   "\[Mu]", "\[Sigma]"}}]]}}]}}]], "Specifications" :> {
+        Style[
+        "first distribution", Bold], {{$CellContext`\[Mu]1$$, 8}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]1$$, 5}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "second distribution", 
+         Bold], {{$CellContext`\[Mu]2$$, -3.599999999999998}, -20, 20, 
+         ImageSize -> Tiny, Appearance -> 
+         "Labeled"}, {{$CellContext`\[Sigma]2$$, 1.51}, 1, 10, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "probability", Bold], {{$CellContext`p1$$, 0.3, "p"}, 0.1, 0.9, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}, Delimiter, 
+        Style[
+        "number of samples", Bold], {{$CellContext`numsamples$$, 200, ""}, 50,
+          200, 10, ImageSize -> Tiny, Appearance -> "Labeled"}, 
+        Style[
+        "number of iterations\nof EM algorithm", 
+         Bold], {{$CellContext`numiterations$$, 4, ""}, 1, 20, 1, ImageSize -> 
+         Tiny, Appearance -> "Labeled"}, 
+        Delimiter, {{$CellContext`sr$$, 326, "random seed"}, 1, 9999, 1, 
+         ImageSize -> Tiny, Appearance -> "Labeled"}}, 
+      "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>(($CellContext`problists[
+         Pattern[$CellContext`\[Theta], 
+          Blank[]], 
+         Pattern[$CellContext`y, 
+          Blank[]]] := 
+       Block[{$CellContext`probs, $CellContext`totalprobs}, \
+$CellContext`probs = 
+          Table[Part[$CellContext`\[Theta], 3, $CellContext`i] Map[PDF[
+               Apply[NormalDistribution, 
+                
+                Part[$CellContext`\[Theta], $CellContext`i]], #]& , \
+$CellContext`y], {$CellContext`i, 2}]; $CellContext`totalprobs = 
+          Total[$CellContext`probs]; 
+         Map[#/$CellContext`totalprobs& , $CellContext`probs]]; \
+$CellContext`pi[
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := Mean[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emu[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[$CellContext`sim Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`emstd[
+         Pattern[$CellContext`sim, 
+          Blank[]], 
+         Pattern[$CellContext`j, 
+          Blank[]], 
+         Pattern[$CellContext`u, 
+          Blank[List]], 
+         Pattern[$CellContext`p, 
+          Blank[]]] := 
+       Total[($CellContext`sim - Part[$CellContext`u, $CellContext`j])^2 
+          Part[$CellContext`p, $CellContext`j]]/Total[
+         Part[$CellContext`p, $CellContext`j]]; $CellContext`em[
+         Pattern[$CellContext`params, 
+          Blank[]], 
+         Pattern[$CellContext`sim, 
+          Blank[]]] := 
+       Module[{$CellContext`theprobs, $CellContext`mus, $CellContext`vars, \
+$CellContext`probs}, $CellContext`theprobs = \
+$CellContext`problists[$CellContext`params, $CellContext`sim]; \
+$CellContext`mus = 
+          Map[$CellContext`emu[$CellContext`sim, #, $CellContext`theprobs]& , \
+{1, 2}]; $CellContext`vars = Map[$CellContext`emstd[$CellContext`sim, #, 
+             Part[$CellContext`params, 
+              Span[1, 2], 1], $CellContext`theprobs]& , {1, 
+            2}]; $CellContext`probs = 
+          Map[$CellContext`pi[#, $CellContext`theprobs]& , {1, 2}]; Append[
+           
+           Transpose[{$CellContext`mus, $CellContext`vars^0.5}], \
+$CellContext`probs]]; Null); Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->208384082]
+}, Open  ]],
+
+Cell["", "DetailsSection"],
+
+Cell[CellGroupData[{
+
+Cell["", "ControlSuggestionsSection"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Resize Images"]}],
+  "\"Click inside an image to reveal its orange resize frame.\\nDrag any of \
+the orange resize handles to resize the image.\"",
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.35696210375764*^9, 3.425677096328125*^9},
+ FontFamily->"Verdana",
+ CellTags->"ResizeImages"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Rotate and Zoom in 3D"]}],
+  RowBox[{
+   "\"Drag a 3D graphic to rotate it. Starting the drag near the center \
+tumbles\\nthe graphic; starting near a corner turns it parallel to the plane \
+of the screen.\\nHold down \"", 
+    FrameBox[
+    "Ctrl", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" (or \"", 
+    FrameBox[
+    "Cmd", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" on Mac) and drag up and down to zoom.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"RotateAndZoomIn3D"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Drag Locators"]}],
+  RowBox[{"\"Drag any locator (\"", 
+    GraphicsBox[
+     LocatorBox[
+      Scaled[{0.5, 0.5}]], ImageSize -> 20], 
+    "\", etc.) to move it around.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"DragLocators"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Create and Delete Locators"]}],
+  RowBox[{"\"Insert a new locator in the graphic by holding down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], 
+    "\" key\\nand clicking where you want it to be. Delete a locator by \
+clicking it\\nwhile holding down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" key.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"CreateAndDeleteLocators"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Slider Zoom"]}],
+  RowBox[{"\"Hold down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], 
+    "\" key while moving a slider to make fine adjustments in the slider \
+value.\\nHold \"", 
+    FrameBox[
+    "Ctrl", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" and/or \"", 
+    FrameBox[
+    "Shift", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" at the same time as \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" to make ever finer adjustments.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"SliderZoom"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Gamepad Controls"]}],
+  "\"Control this Demonstration with a gamepad or other\\nhuman interface \
+device connected to your computer.\"",
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.35696210375764*^9, 3.3895522232313623`*^9},
+ FontFamily->"Verdana",
+ CellTags->"GamepadControls"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Automatic Animation"]}],
+  RowBox[{"\"Animate a slider in this Demonstration by clicking the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJzzTSzJSM1NLMlMTlRwL0osyMhMLlZwyy8CCjEzMjAwcIKwAgOI/R/IhBKc\n\
+/4EAyGAG0f+nTZsGwgysIJIRKsWKLAXGIHFmEpUgLADxWUAkI24jZs+eTaEt\n\
+IG+wQKRmzJgBlYf5lhEA30OqWA=="], "Graphics", ImageSize -> {9, 9}, ImageMargins -> 
+      0], BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"button\\nnext to the slider, and then clicking the play button that \
+appears.\\nAnimate all controls by selecting \"", 
+    StyleBox["Autorun", FontWeight -> "Bold"], "\" from the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJyNULENwyAQfEySIlMwTVJlCGRFsosokeNtqBmDBagoaZjAI1C8/8GUUUC6\n\
+57h7cQ8PvU7Pl17nUav7oj/TPH7V7b2QJAUAXBkKmCPRowxICy64bRvGGNF7\n\
+X8CctGoDSN4xhIDGGDhzFXwUh3/ClBKrDQPmnGXtI6u0OOd+tZBVUqy1xSaH\n\
+UqiK6pPe4XdEdAz6563tx/gejuORGMxJaz8mdpJn7hc="], "Graphics", 
+      ImageSize -> {10, 10}, ImageMargins -> 0], BoxBaselineShift -> 
+     0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"menu.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"AutomaticAnimation"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Bookmark Animation"]}],
+  RowBox[{
+   "\"See a prepared animation of this Demonstration by selecting\\n\"", 
+    StyleBox["Animate Bookmarks", FontWeight -> "Bold"], "\" from the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJyNULENwyAQfEySIlMwTVJlCGRFsosokeNtqBmDBagoaZjAI1C8/8GUUUC6\n\
+57h7cQ8PvU7Pl17nUav7oj/TPH7V7b2QJAUAXBkKmCPRowxICy64bRvGGNF7\n\
+X8CctGoDSN4xhIDGGDhzFXwUh3/ClBKrDQPmnGXtI6u0OOd+tZBVUqy1xSaH\n\
+UqiK6pPe4XdEdAz6563tx/gejuORGMxJaz8mdpJn7hc="], "Graphics", 
+      ImageSize -> {10, 10}, ImageMargins -> 0], BoxBaselineShift -> 
+     0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"menu.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"BookmarkAnimation"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SearchTermsSection"],
+
+Cell["probability", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.425467772954933*^9, 3.425467776679798*^9}},
+ CellID->2046803307],
+
+Cell["statistics", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4254677790597754`*^9, 3.4254677805521297`*^9}},
+ CellID->82639456],
+
+Cell["estimation", "SearchTerms",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.425467785080391*^9, 3.4254677861602*^9}},
+ CellID->1646901030]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "RelatedLinksSection"],
+
+Cell[TextData[ButtonBox["Maximum Likelihood",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://mathworld.wolfram.com/MaximumLikelihood.html"], 
+   None}]], "RelatedLinks",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4260012184231052`*^9, 3.426001228804143*^9}},
+ CellID->283771746]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "AuthorSection"],
+
+Cell[TextData[{
+ "Contributed by: ",
+ ButtonBox["Anthony Fox",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/author.html?author=Anthony+Fox"], 
+    None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/author.html?author=Anthony+Fox"]
+}], "Author",
+ CellChangeTimes->{
+  3.35696210375764*^9, {3.4254028826039762`*^9, 3.425402886666914*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1016, 741},
+WindowMargins->{{117, Automatic}, {55, Automatic}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (November 7, 2010)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Demonstration.nb", 
+  CharacterEncoding -> "WindowsANSI"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "ResizeImages"->{
+  Cell[66496, 1470, 374, 9, 22, "ControlSuggestions",
+   CellTags->"ResizeImages"]},
+ "RotateAndZoomIn3D"->{
+  Cell[66873, 1481, 678, 16, 22, "ControlSuggestions",
+   CellTags->"RotateAndZoomIn3D"]},
+ "DragLocators"->{
+  Cell[67554, 1499, 340, 11, 22, "ControlSuggestions",
+   CellTags->"DragLocators"]},
+ "CreateAndDeleteLocators"->{
+  Cell[67897, 1512, 637, 15, 22, "ControlSuggestions",
+   CellTags->"CreateAndDeleteLocators"]},
+ "SliderZoom"->{
+  Cell[68537, 1529, 844, 21, 22, "ControlSuggestions",
+   CellTags->"SliderZoom"]},
+ "GamepadControls"->{
+  Cell[69384, 1552, 369, 9, 22, "ControlSuggestions",
+   CellTags->"GamepadControls"]},
+ "AutomaticAnimation"->{
+  Cell[69756, 1563, 1412, 31, 22, "ControlSuggestions",
+   CellTags->"AutomaticAnimation"]},
+ "BookmarkAnimation"->{
+  Cell[71171, 1596, 882, 21, 22, "ControlSuggestions",
+   CellTags->"BookmarkAnimation"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"ResizeImages", 73777, 1684},
+ {"RotateAndZoomIn3D", 73886, 1687},
+ {"DragLocators", 73996, 1690},
+ {"CreateAndDeleteLocators", 74112, 1693},
+ {"SliderZoom", 74226, 1696},
+ {"GamepadControls", 74332, 1699},
+ {"AutomaticAnimation", 74445, 1702},
+ {"BookmarkAnimation", 74562, 1705}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 174, 3, 74, "DemoTitle"],
+Cell[744, 27, 33, 0, 266, "InitializationSection"],
+Cell[CellGroupData[{
+Cell[802, 31, 29, 0, 188, "ManipulateSection"],
+Cell[CellGroupData[{
+Cell[856, 35, 17588, 419, 1041, "Input",
+ CellID->2041533697],
+Cell[18447, 456, 9244, 189, 425, "Output",
+ CellID->522223129]
+}, {2}]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27737, 651, 36, 0, 172, "ManipulateCaptionSection"],
+Cell[27776, 653, 1524, 35, 100, "ManipulateCaption"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29337, 693, 28, 0, 174, "ThumbnailSection"],
+Cell[29368, 695, 9260, 189, 425, "Output",
+ CellID->117873207]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[38665, 889, 28, 0, 144, "SnapshotsSection"],
+Cell[38696, 891, 9206, 188, 37, "Output",
+ CellID->227089026],
+Cell[47905, 1081, 9210, 188, 37, "Output",
+ CellID->228959262],
+Cell[57118, 1271, 9272, 190, 37, "Output",
+ CellID->208384082]
+}, Open  ]],
+Cell[66405, 1464, 26, 0, 332, "DetailsSection"],
+Cell[CellGroupData[{
+Cell[66456, 1468, 37, 0, 108, "ControlSuggestionsSection"],
+Cell[66496, 1470, 374, 9, 22, "ControlSuggestions",
+ CellTags->"ResizeImages"],
+Cell[66873, 1481, 678, 16, 22, "ControlSuggestions",
+ CellTags->"RotateAndZoomIn3D"],
+Cell[67554, 1499, 340, 11, 22, "ControlSuggestions",
+ CellTags->"DragLocators"],
+Cell[67897, 1512, 637, 15, 22, "ControlSuggestions",
+ CellTags->"CreateAndDeleteLocators"],
+Cell[68537, 1529, 844, 21, 22, "ControlSuggestions",
+ CellTags->"SliderZoom"],
+Cell[69384, 1552, 369, 9, 22, "ControlSuggestions",
+ CellTags->"GamepadControls"],
+Cell[69756, 1563, 1412, 31, 22, "ControlSuggestions",
+ CellTags->"AutomaticAnimation"],
+Cell[71171, 1596, 882, 21, 22, "ControlSuggestions",
+ CellTags->"BookmarkAnimation"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[72090, 1622, 30, 0, 152, "SearchTermsSection"],
+Cell[72123, 1624, 145, 3, 22, "SearchTerms",
+ CellID->2046803307],
+Cell[72271, 1629, 146, 3, 22, "SearchTerms",
+ CellID->82639456],
+Cell[72420, 1634, 142, 3, 22, "SearchTerms",
+ CellID->1646901030]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[72599, 1642, 31, 0, 138, "RelatedLinksSection"],
+Cell[72633, 1644, 289, 7, 22, "RelatedLinks",
+ CellID->283771746]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[72959, 1656, 25, 0, 136, "AuthorSection"],
+Cell[72987, 1658, 385, 11, 22, "Author"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
